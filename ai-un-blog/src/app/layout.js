@@ -1,9 +1,9 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Gabarito } from 'next/font/google'
 import { Navbar } from './components/navbar/Navbar';
 import { Footer } from './components/footer/Footer';
 
-const inter = Inter({ subsets: ['latin'] })
+const gabarito = Gabarito({ subsets: ['latin'] })
 
 export const metadata = {
   title: "AI UN Blog",
@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={gabarito.className}>
         <div className="container">
           <div className="wrapper">
             <Navbar/>

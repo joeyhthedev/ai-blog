@@ -1,0 +1,65 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+    background-color: #334B7B;
+  }
+  
+  .social {
+    display: flex;
+    gap: 10px;
+    flex: none; /* Prevents the social section from stretching */
+  }
+  
+  .logo {
+    flex: none; /* Prevents the logo from stretching */
+    text-align: left; /* Aligns the logo to the left */
+    font-size: 36px;
+    font-weight: bold;
+    color: #48BB78
+  }
+  
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex: 1; /* Allows the links section to take up the remaining space */
+    justify-content: center; /* Centers the links */
+    font-size: 15px;
+    color: #F7FAFC
+  }
+  
+  @media screen and (max-width: 1280px) {
+    .logo {
+      font-size: 32px;
+    }
+    .links {
+      font-size: 18px;
+      gap: 15px;
+    }
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .social {
+      display: none;
+    }
+    .logo {
+      text-align: left;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .logo {
+      font-size: 24px;
+    }
+  }
+  
+  @media screen and (max-width: 640px) {
+    .links {
+      justify-content: flex-end;
+    }
+    .link {
+      display: none;
+    }
+  }
