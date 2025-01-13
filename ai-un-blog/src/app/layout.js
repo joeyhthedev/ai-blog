@@ -14,13 +14,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={gabarito.className}>
-        <div className="container">
-          <div className="wrapper">
-            <Navbar/>
+        <Navbar/>
+          <div className="container">
+            <div className="wrapper">
               {children}
-            <Footer/>
           </div>
         </div>
+        <Footer/>
       </body> 
     </html>
   );
