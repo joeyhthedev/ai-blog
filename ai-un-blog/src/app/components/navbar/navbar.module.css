@@ -17,9 +17,10 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #F7FAFC;
+    color: black;
     font-family: 'Gabarito';
     border-radius: 9px;
+    font-weight: bold;
   }
   
   .logo {
