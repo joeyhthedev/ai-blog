@@ -14,8 +14,12 @@ export default function Home() {
       <Featured/>
       <CategoryList/>
       <div className={styles.content}>
-        <CardList/>
-        <Menu/>
+        <div className={styles.cardList}>
+          <CardList/>
+        </div>
+        <div className={styles.menu}>
+          <Menu/>
+        </div>
       </div>
     </div>
   );

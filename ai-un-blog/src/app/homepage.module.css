@@ -1,0 +1,12 @@
+.content {
+    display: flex;
+    gap: 30px;
+}
+
+.cardList{
+    flex: 2;
+}
+
+.menu {
+    flex: 1;
+}
