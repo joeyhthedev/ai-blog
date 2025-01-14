@@ -6,7 +6,7 @@ export const Featured = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>
-        Your Source For <b className={styles.bold}>AI</b> Developments at the <b className={styles.bold}>United Nations.</b>
+        Your Source For <b className={styles.bold}>AI</b> Developments in <b className={styles.bold}>US Congress.</b>
       </h1>
       <div className={styles.post}>
         <div className={styles.featuredMarker}>
@@ -17,10 +17,10 @@ export const Featured = () => {
         </div>
         <div className={styles.textContainer}>
           <h1 className={styles.postTitle}>
-            UN Secretary-General Antonio Guterres Declares Skibbidy Toilet a National Emergency
+            "We Are So Back!" UN Secretary-General Antonio Guterres Reacts to US TikTok Ban
           </h1>
           <p className={styles.postDescription}>
-            Says Guterres: "Fortnite Battle Pass. I just shit out my ass."
+            While speaking to the General Assembly, Guterres remarks on the incoming decrease in "absolute shitheads" living in America.
           </p>
           <button className={styles.button}>Read More</button>
         </div>
