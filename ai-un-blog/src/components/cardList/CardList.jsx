@@ -5,15 +5,13 @@ import { Card } from '../card/Card'
 
 export const CardList = () => {
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
-      <div className={styles.container}>
         <div className={styles.posts}>
           <Card/>
           <Card/>
           <Card/>
           <Card/>
-        </div>
       </div>
     </div>
   )
