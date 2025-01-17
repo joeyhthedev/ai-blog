@@ -1,9 +1,10 @@
-import './globals.css'
-import { Gabarito } from 'next/font/google'
-import { Navbar } from '../components/navbar/Navbar';
-import { Footer } from '../components/footer/Footer';
+import "./globals.css";
+import { Gabarito } from "next/font/google";
+import { Navbar } from "../components/navbar/Navbar";
+import { Footer } from "../components/footer/Footer";
+import AuthProvider from "./providers/AuthProvider";
 
-const gabarito = Gabarito({ subsets: ['latin'] })
+const gabarito = Gabarito({ subsets: ["latin"] });
 
 export const metadata = {
   title: "AI UN Blog",
@@ -14,14 +15,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={gabarito.className}>
-        <Navbar/>
+        <AuthProvider>
+          <Navbar />
           <div className="container">
-            <div className="wrapper">
-              {children}
+            <div className="wrapper">{children}</div>
           </div>
-        </div>
-        <Footer/>
-      </body> 
+          <Footer />
+        </AuthProvider>
+      </body>
     </html>
   );
 }
