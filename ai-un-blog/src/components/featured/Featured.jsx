@@ -17,10 +17,10 @@ export const Featured = () => {
         </div>
         <div className={styles.textContainer}>
           <h1 className={styles.postTitle}>
-            "We Are So Back!" UN Secretary-General Antonio Guterres Reacts to US TikTok Ban
+            Top 5 Reasons That German People Should Leave the United States and Never Come Back
           </h1>
           <p className={styles.postDescription}>
-            While speaking to the General Assembly, Guterres remarks on the incoming decrease in "absolute shitheads" living in America.
+            They gotta leave on god
           </p>
           <button className={styles.button}>Read More</button>
         </div>
