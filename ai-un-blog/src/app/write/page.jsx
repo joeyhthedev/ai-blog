@@ -5,16 +5,26 @@ import styles from "./writePage.module.css";
 import Image from 'next/image';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 
 // Dynamically import react-quill with SSR disabled
 
 
 const WritePage = () => {
-
+  const {status} = useSession();
+  const router = useRouter()
   const [content, setContent] = useState("");
-
   const [open, setOpen] = useState(false);
+
+  if (status === "loading") {
+    return <div className={styles.loading}>Loading...</div>
+  }
+
+  if (status === "authenticated") {
+    router.push("/")
+  }
 
   return (
     <div className={styles.container}>
