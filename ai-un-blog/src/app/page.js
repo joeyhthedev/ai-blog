@@ -8,7 +8,7 @@ import { Featured } from "../components/featured/Featured";
 import CardList from "../components/cardList/CardList";
 import { Menu } from "../components/Menu/Menu";
 
-export default function Home({ searchParams }) {
+export default async function Home({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
 
   return (

@@ -1,12 +1,13 @@
-"use client"
+"use client";
 
 import React, { useState } from 'react';
 import styles from "./writePage.module.css";
 import Image from 'next/image';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 
 // Dynamically import react-quill with SSR disabled
@@ -14,16 +15,20 @@ import { useSession } from 'next-auth/react';
 
 const WritePage = () => {
   const {status} = useSession();
-  const router = useRouter()
+  const router = useRouter();
+
   const [content, setContent] = useState("");
   const [open, setOpen] = useState(false);
 
-  if (status === "loading") {
-    return <div className={styles.loading}>Loading...</div>
-  }
+  useEffect(() => {
+    // This ensures navigation happens only after the render
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, router]); // Runs when `status` changes
 
-  if (status === "authenticated") {
-    router.push("/")
+  if (status === "loading") {
+    return <div className={styles.loading}>Loading...</div>;
   }
 
   return (

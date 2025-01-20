@@ -10,3 +10,7 @@
 .menu {
     flex: 2;
 }
+
+.pagination {
+    flex: 5;
+}
