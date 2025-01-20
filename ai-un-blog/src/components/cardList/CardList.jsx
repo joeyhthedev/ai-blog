@@ -1,18 +1,49 @@
-import React from 'react'
-import styles from "./cardList.module.css"
-import { Pagination } from '../Pagination/Pagination'
-import { Card } from '../card/Card'
+import React from 'react';
+import styles from "./cardList.module.css";
+import { Card } from '../card/Card';
+import { Pagination } from '../pagination/Pagination';
 
-export const CardList = () => {
+const getData = async (page) => {
+  const res = await fetch(`http://localhost:3000/api/posts?page=${page}`, {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return res.json();
+};
+
+const CardList = async ({ page }) => {
+  let data = {};
+
+  try {
+    data = await getData(page);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return <div>Error loading posts. Please try again later.</div>;
+  }
+
+  const { posts, count } = data;
+  const POST_PER_PAGE = 2;
+  const hasPrev = POST_PER_PAGE * (page - 1) > 0;
+  const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
+  
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Recent Posts</h1>
-        <div className={styles.posts}>
-          <Card/>
-          <Card/>
-          <Card/>
-          <Card/>
+      <div className={styles.posts}>
+        {posts.length > 0 ? (
+          posts?.map((item) => (
+            <Card item={item} key={item._id} />
+          ))
+        ) : (
+          <div>No posts available.</div>
+        )}
       </div>
+      <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext}/>
     </div>
-  )
-}
+  );
+};
+
+export default CardList;
