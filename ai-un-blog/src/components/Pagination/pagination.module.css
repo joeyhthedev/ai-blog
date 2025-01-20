@@ -15,6 +15,6 @@
 }
 
 .button:disabled {
-    border-color: gray;
+    background-color: maroon;
     cursor: not-allowed;
 }
