@@ -4,6 +4,17 @@ import Image from 'next/image';
 import { Menu } from '@/components/Menu/Menu';
 import Comments from '@/components/comments/Comments';
 
+const getPosts = async () => {
+  const res = await fetch("http://localhost:3000/api/posts", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch posts");
+  }
+  return res.json();
+};
+
 const getData = async (slug) => {
   const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
     cache: "no-store",
@@ -17,8 +28,16 @@ const getData = async (slug) => {
 
 const SinglePage = async ({ params }) => {
 
+  let posts = {};
   const {slug} = params;
   const data = await getData(slug)
+
+  try {
+    posts = await getPosts();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return { posts: [], count: 0 };
+  }
 
   return (
     <div className={styles.container}>
@@ -26,11 +45,11 @@ const SinglePage = async ({ params }) => {
           <div className={styles.textContainer}>
             <h1 className={styles.title}>{data?.title}</h1>
             <div className={styles.user}>
-              {data?.img && <div className={styles.userImageContainer}>
-                <Image src={data.img} alt="" fill className={styles.avatar}/>
+              {data?.user?.image && <div className={styles.userImageContainer}>
+                <Image src={data.user.image} alt="" fill className={styles.avatar}/>
               </div>}
               <div className={styles.userTextContainer}>
-                <span className={styles.username}>Joseph Holzman</span>
+                <span className={styles.username}>{data?.user.name}</span>
                 <span className={styles.date}>01.01.2025</span>
               </div>
             </div>
@@ -46,7 +65,7 @@ const SinglePage = async ({ params }) => {
                 <Comments />
               </div>
             </div>
-            <Menu/>
+            <Menu data={posts}/>
           </div>
         </div>
   );

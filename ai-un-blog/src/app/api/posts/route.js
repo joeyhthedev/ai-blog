@@ -4,13 +4,17 @@ import prisma from "../../../../utils/connect";
 export const GET = async (req) => {
   const { searchParams } = new URL(req.url);
 
-  const page = searchParams.get("page") || 1;
+  const page = Math.max(1, Number(searchParams.get("page")) || 1);
 
   const POST_PER_PAGE = 2;
 
   const query = {
     take: POST_PER_PAGE,
     skip: POST_PER_PAGE * (page - 1),
+    include: {
+      cat: true,
+      user: true,
+    },
   };
 
   try {

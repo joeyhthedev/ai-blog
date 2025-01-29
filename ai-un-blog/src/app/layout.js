@@ -2,7 +2,6 @@ import "./globals.css";
 import { Gabarito } from "next/font/google";
 import { Navbar } from "../components/navbar/Navbar";
 import { Footer } from "../components/footer/Footer";
-import AuthProvider from "./providers/AuthProvider";
 
 const gabarito = Gabarito({ subsets: ["latin"] });
 
@@ -15,13 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={gabarito.className}>
-        <AuthProvider>
           <Navbar />
           <div className="container">
             <div className="wrapper">{children}</div>
           </div>
           <Footer />
-        </AuthProvider>
       </body>
     </html>
   );

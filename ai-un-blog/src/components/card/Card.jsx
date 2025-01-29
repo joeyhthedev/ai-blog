@@ -7,19 +7,19 @@ export const Card = ({key, item}) => {
   return (
     <div className={styles.container} key={key}>
         <div className={styles.imageContainer}>
-            <Image src="/asset/Guterres.jpg" alt="" fill />
+            <Image src={item.image} alt="" fill />
         </div>
         <div className={styles.textContainer}>
             <div className={styles.detail}>
-                <span className={styles.date}>11.02.2025 </span>
-                <span className={styles.category}>{item.catSlug}</span>
+                <span className={styles.date}>{item.createdAt}</span>
+                <span> ○ </span>
+                <span className={styles.category}>{item.cat?.title}</span>
             </div>
-        <Link className={styles.title} href="/">
+        <Link className={styles.title} href={`/posts/${item.slug}`}>
             <h1>{item.title}</h1>
         </Link>
-        <p className={styles.desc}>{item.desc} 
-</p>
-        <Link className={styles.link} href="/">Read More</Link>
+        <p className={styles.desc}>{item.desc}</p>
+        <Link className={styles.link} href={`/posts/${item.slug}`}>Read More</Link>
         </div>
     </div>
   )
