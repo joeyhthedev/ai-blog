@@ -3,25 +3,10 @@ import styles from "./cardList.module.css";
 import { Card } from '../card/Card';
 import { Pagination } from '../pagination/Pagination';
 
-const getData = async (page) => {
-  const res = await fetch(`http://localhost:3000/api/posts?page=${page}`, {
-    cache: "no-store",
-  });
+const CardList = ({ page, data }) => {
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch posts");
-  }
-  return res.json();
-};
-
-const CardList = async ({ page }) => {
-  let data = {};
-
-  try {
-    data = await getData(page);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    return <div>Error loading posts. Please try again later.</div>;
+  if (!data || !Array.isArray(data.posts)) {
+    return <div>Loading posts...</div>;  // Display loading or error state
   }
 
   const { posts, count } = data;
