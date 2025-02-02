@@ -3,20 +3,32 @@ import styles from "./cardList.module.css";
 import { Card } from '../card/Card';
 import { Pagination } from '../pagination/Pagination';
 
-const CardList = ({ page, data }) => {
+const getData = async (page) => {
+  const res = await fetch(
+    `http://localhost:3000/api/posts?page=${page}`,
+    {
+      cache: "no-store",
+    }
+  );
 
-  if (!data || !Array.isArray(data.posts)) {
-    return <div>Loading posts...</div>;  // Display loading or error state
+  if (!res.ok) {
+    throw new Error("Failed");
   }
 
-  const { posts, count } = data;
+  return res.json();
+};
+
+const CardList = async ({ page }) => {
+
+  const { posts, count } = await getData(page);
+
   const POST_PER_PAGE = 2;
   const hasPrev = POST_PER_PAGE * (page - 1) > 0;
   const hasNext = POST_PER_PAGE * (page - 1) + POST_PER_PAGE < count;
   
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Recent Posts</h1>
+      <h1 className={styles.title}>All Posts</h1>
       <div className={styles.posts}>
         {posts.length > 0 ? (
           posts?.map((item) => (

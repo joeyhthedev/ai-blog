@@ -26,6 +26,7 @@ export default async function Home({ searchParams }) {
 
   try {
     data = await getData();
+    console.log(data);
   } catch (error) {
     console.error("Error fetching data:", error);
     return { posts: [], count: 0 };
@@ -38,7 +39,7 @@ export default async function Home({ searchParams }) {
       </div>
       <div className={styles.content}>
         <div className={styles.cardList}>
-          <CardList page={page} data={data} />
+          <CardList page={page} />
         </div>
         <div className={styles.menu}>
           <Menu data={data} />

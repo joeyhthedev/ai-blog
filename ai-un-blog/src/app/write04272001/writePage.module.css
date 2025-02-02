@@ -11,6 +11,7 @@
 
 .textArea {
     width: 100%;
+    font-family: gabarito;
 }
 
 .button,.addButton {
@@ -43,6 +44,15 @@
     padding: 50px;
     font-size: 40px;
     font-weight: bold;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+}
+
+.descriptionInput {
+    padding: 50px;
+    font-size: 20px;
     border: none;
     outline: none;
     background-color: transparent;

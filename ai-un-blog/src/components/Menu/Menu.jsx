@@ -8,15 +8,16 @@ export const Menu = ({data}) => {
     return <div>Loading posts...</div>;  // Display loading or error state
   }
 
-  const { posts } = data;
+  const sortedPosts = [...data.allPosts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
 
   return (
     <div className={styles.container}>
       <h2 className={styles.subtitle}>What's Hot</h2>
       <h1 className={styles.title}>Most Popular</h1>
       <div className={styles.items}>
-        {posts.length > 0 ? (
-            posts?.map((item) => (
+        {sortedPosts.length > 0 ? (
+            sortedPosts?.map((item) => (
               <MenuItem item={item} key={item._id} />
             ))
           ) : (

@@ -8,7 +8,7 @@ const MenuItem = ({item, key}) => {
     <div className={styles.container} key={key}>
         <Link href={`/posts/${item.slug}`} className={styles.item}>
           <div className={styles.imageContainer}>
-            <Image src={item.image} alt="" fill className={styles.image}/> 
+            <Image src={item.img} alt="" fill className={styles.image}/> 
           </div>
           <div className={styles.textContainer}>
             <span className={`${styles.category} ${styles.travel}`}>{item.cat?.title}</span>
