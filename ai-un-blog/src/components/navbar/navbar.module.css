@@ -3,8 +3,8 @@
     align-items: center;
     justify-content: space-between;
     height: 100px;
-    background-color: #334B7B;
-    padding: 0 20px;
+    background-color: hsl(220, 41%, 34%);
+    padding: 0 80px;
   }
   
   .donate {

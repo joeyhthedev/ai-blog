@@ -7,7 +7,7 @@ export const Card = ({key, item}) => {
   return (
     <div className={styles.container} key={key}>
         <div className={styles.imageContainer}>
-            <Image src={item.image} alt="" fill />
+            <Image src={item.img} alt="" fill />
         </div>
         <div className={styles.textContainer}>
             <div className={styles.detail}>

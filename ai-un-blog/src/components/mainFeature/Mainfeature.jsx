@@ -6,28 +6,35 @@ import Link from 'next/link';
 
 const Mainfeature = ({data}) => {
 
-  const mostRecentPostTitle = data.posts.length > 0 ? data.posts[0].title : null;
-  const mostRecentPost = data.posts.length > 0 ? data.posts[0] : null;
+    if (!data.allPosts || data.allPosts.length === 0) {
+        return <p>No posts available</p>;
+      }
+    
+      // Ensure posts are sorted by most recent
+      const sortedPosts = [...data.allPosts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+      // Get the most recent post
+      const mostRecentPost = sortedPosts[0];
 
   return (
     <div className={styles.container}>
         <div className={styles.postContainer}>
             <div className={styles.imgContainer}>
-                <Image src={mostRecentPost.image} alt="Antonio Guterres Speaking" fill objectFit='cover' className={styles.image}/>
+                <Image src={mostRecentPost.img} alt="Alt" fill objectFit='cover' className={styles.image}/>
             </div>
             <div className={styles.postContent}>
                 <h1 className={styles.featuredMarker}><span>FEATURED</span></h1>
                 <div className={styles.textContainer}>
                     <Link href={`/posts/${mostRecentPost.slug}`}>
                         <h1 className={styles.postTitle}>
-                            {mostRecentPostTitle}
+                            {mostRecentPost.title}
                         </h1>
                     </Link>
                 </div>
             </div>
         </div>
         <div className={styles.featureList}>
-            <FeatureList data={data}/>
+            <FeatureList sortedPosts={sortedPosts}/>
         </div>
     </div>
   )

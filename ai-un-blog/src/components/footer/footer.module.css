@@ -1,0 +1,55 @@
+.container {
+    margin-top: 50px;
+    display: flex;
+    padding: 20px 0px;
+    justify-content: space-between;
+    background-color: #334B7B;
+    padding: 30px 80px;
+
+}
+
+.info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logoText {
+    font-size: 24px;
+    color: white;
+}
+
+.description {
+    font-weight: 300;
+    color: white;
+}
+
+.links {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 300;
+}
+
+.textContainer {
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.plug {
+    color: antiquewhite;
+}
