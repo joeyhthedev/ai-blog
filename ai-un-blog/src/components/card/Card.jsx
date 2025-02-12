@@ -2,6 +2,7 @@ import React from 'react'
 import styles from "./card.module.css"
 import Image from 'next/image'
 import Link from 'next/link'
+import { formatDate } from '../../../utils/datefix'
 
 export const Card = ({key, item}) => {
   return (
@@ -11,7 +12,7 @@ export const Card = ({key, item}) => {
         </div>
         <div className={styles.textContainer}>
             <div className={styles.detail}>
-                <span className={styles.date}>{item.createdAt}</span>
+                <span className={styles.date}>{formatDate(item.createdAt)}</span>
                 <span> ○ </span>
                 <span className={styles.category}>{item.cat?.title}</span>
             </div>

@@ -1,15 +1,23 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import React, { useEffect, useState } from 'react';
 import styles from "./writePage.module.css";
 import Image from 'next/image';
-import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { app } from "../../../utils/firebase"
+import { useMemo } from 'react';
+import Quill from 'quill';
+
+
+const Font = Quill.import('formats/font');
+Font.whitelist = ['sans', 'serif', 'monospace', 'gabarito']; 
+Quill.register(Font, true);
 
 
 // Dynamically import react-quill with SSR disabled
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const storage = getStorage(app);
 
@@ -58,6 +66,63 @@ const WritePage = () => {
     file && upload();
   },[file])
 
+  const handleImageUpload = () => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Upload to Firebase
+      const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
+        },
+        (error) => {
+          console.error("Upload failed:", error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
+          // Insert the uploaded image into React Quill
+          const quill = document.querySelector(".ql-editor");
+          if (quill) {
+            quill.focus();
+            const range = window.getSelection()?.anchorOffset || 0;
+            const quillEditor = quill.__quill; // Get the Quill instance
+            quillEditor.insertEmbed(range, "image", downloadURL);
+          }
+        }
+      );
+    };
+  };
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, false] }],
+        [{ 'font': Font.whitelist }],
+        ['bold', 'italic', 'underline'],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['link', 'image'], // Enable image button
+        [{ 'align': [] }],
+      ],
+      handlers: {
+        image: handleImageUpload, // Custom image upload handler
+      },
+    },
+  }), []);
+
+
 
   const slugify = (str) =>
     str
@@ -68,6 +133,11 @@ const WritePage = () => {
       .replace(/^-+|-+$/g, "");
 
   const handleSubmit = async () => {
+    if (!media) {
+      console.log("Image is still uploading. Please wait...");
+      return;
+    }
+    
     const res = await fetch("/api/posts", {
       method:"POST",
       body:JSON.stringify({
@@ -106,7 +176,7 @@ const WritePage = () => {
             </button>
           </div>
         )}
-        <ReactQuill className={styles.textArea} theme='snow' value={body} onChange={setBody} placeholder="Tell your story..."/>
+        <ReactQuill className={styles.textArea} theme='snow' value={body} onChange={setBody} modules={modules} placeholder="Tell your story..."/>
       </div>
       <button className={styles.publish} onClick={handleSubmit}>Publish</button>
     </div>

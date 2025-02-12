@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import styles from './menuitem.module.css'
 import Image from 'next/image'
+import { formatDate } from '../../../utils/datefix'
 
 const MenuItem = ({item, key}) => {
   return (
@@ -16,7 +17,7 @@ const MenuItem = ({item, key}) => {
             <div className={styles.detail}> 
               <span className={styles.username}>{item.user?.name}</span>
               <span> ○ </span>
-              <span className={styles.date}>{item.createdAt}</span>
+              <span className={styles.date}>{formatDate(item.createdAt)}</span>
             </div>
           </div>
         </Link>

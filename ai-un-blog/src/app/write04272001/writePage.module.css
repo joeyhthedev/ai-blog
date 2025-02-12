@@ -1,5 +1,11 @@
-.container {
-    
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap');
+
+.ql-font-gabarito { 
+    font-family: "Gabarito", sans-serif !important;
+}
+
+.ql-editor {
+    font-family: "Gabarito", sans-serif;
 }
 
 .editor {
@@ -11,7 +17,6 @@
 
 .textArea {
     width: 100%;
-    font-family: gabarito;
 }
 
 .button,.addButton {
@@ -75,3 +80,4 @@
     border-radius: 20px;
     font-family: gabarito;
 }
+
