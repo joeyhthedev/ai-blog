@@ -67,20 +67,22 @@ const WritePage = () => {
   },[file])
 
   const handleImageUpload = () => {
+    if (typeof document === "undefined") return; // Prevents server-side execution
+  
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
-    
+  
     input.click();
-
+  
     input.onchange = async () => {
       const file = input.files[0];
       if (!file) return;
-
+  
       // Upload to Firebase
       const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-
+  
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -92,14 +94,16 @@ const WritePage = () => {
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-          // Insert the uploaded image into React Quill
-          const quill = document.querySelector(".ql-editor");
-          if (quill) {
-            quill.focus();
-            const range = window.getSelection()?.anchorOffset || 0;
-            const quillEditor = quill.__quill; // Get the Quill instance
-            quillEditor.insertEmbed(range, "image", downloadURL);
+  
+          // Ensure this code runs only in the browser
+          if (typeof window !== "undefined") {
+            const quill = document.querySelector(".ql-editor");
+            if (quill) {
+              quill.focus();
+              const range = window.getSelection()?.anchorOffset || 0;
+              const quillEditor = quill.__quill; // Get the Quill instance
+              quillEditor.insertEmbed(range, "image", downloadURL);
+            }
           }
         }
       );
