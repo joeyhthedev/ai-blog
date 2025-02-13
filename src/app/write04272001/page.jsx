@@ -15,7 +15,6 @@ const Font = Quill.import('formats/font');
 Font.whitelist = ['sans', 'serif', 'monospace', 'gabarito']; 
 Quill.register(Font, true);
 
-
 // Dynamically import react-quill with SSR disabled
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -29,60 +28,64 @@ const WritePage = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [body, setBody] = useState("");
-  
+  const [quillEditor, setQuillEditor] = useState(null); // Store Quill instance
+
   //Menu
   const [open, setOpen] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const quill = document.querySelector(".ql-editor");
+      if (quill) {
+        setQuillEditor(quill.__quill); // Store Quill instance
+      }
+    }
+  }, []);
+
+  useEffect(() => {
     const upload = () => {
-      const name = new Date().getTime + file.name;
-      const storageRef = ref(storage, file.name);
+      if (!file) return;
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, name);
       const uploadTask = uploadBytesResumable(storageRef, file);
+
       uploadTask.on('state_changed', 
         (snapshot) => {
           const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
         }, 
         (error) => {
-          // Handle unsuccessful uploads
+          console.error("Upload failed:", error);
         }, 
-        () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setMedia(downloadURL);
-          });
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setMedia(downloadURL);
         }
       );
     };
-    file && upload();
-  },[file])
+
+    if (file) {
+      upload();
+    }
+  }, [file]);
 
   const handleImageUpload = () => {
-    if (typeof document === "undefined") return; // Prevents server-side execution
-  
+    if (typeof window === "undefined") return; // Prevents server-side execution
+
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
-  
+
     input.click();
-  
+
     input.onchange = async () => {
       const file = input.files[0];
       if (!file) return;
-  
+
       // Upload to Firebase
       const storageRef = ref(storage, `images/${Date.now()}_${file.name}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
-  
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -94,16 +97,11 @@ const WritePage = () => {
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  
+
           // Ensure this code runs only in the browser
-          if (typeof window !== "undefined") {
-            const quill = document.querySelector(".ql-editor");
-            if (quill) {
-              quill.focus();
-              const range = window.getSelection()?.anchorOffset || 0;
-              const quillEditor = quill.__quill; // Get the Quill instance
-              quillEditor.insertEmbed(range, "image", downloadURL);
-            }
+          if (quillEditor) {
+            const range = quillEditor.getSelection()?.index || 0;
+            quillEditor.insertEmbed(range, "image", downloadURL);
           }
         }
       );
@@ -126,14 +124,12 @@ const WritePage = () => {
     },
   }), []);
 
-
-
   const slugify = (str) =>
     str
       .toLowerCase()
       .trim()
-      .replace(/[^/w/s-]/g, "")
-      .replace(/[\s_-]/g, "-")
+      .replace(/[^a-zA-Z0-9\s-]/g, "")
+      .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
   const handleSubmit = async () => {
@@ -143,30 +139,30 @@ const WritePage = () => {
     }
     
     const res = await fetch("/api/posts", {
-      method:"POST",
-      body:JSON.stringify({
+      method: "POST",
+      body: JSON.stringify({
         slug: slugify(title),
         title,
         desc: description,
         body, 
         img: media,
         catSlug: "generativeai",
-        }),
-      });
-      console.log(res)
-    };
+      }),
+    });
+    console.log(res);
+  };
 
   return (
     <div className={styles.container}>
-      <input type="text" placeholder="Title" className={styles.input} onChange={e=>setTitle(e.target.value)}/>
-      <input type="text" placeholder="Description" className={styles.descriptionInput} onChange={e=>setDescription(e.target.value)}/>
+      <input type="text" placeholder="Title" className={styles.input} onChange={e => setTitle(e.target.value)} />
+      <input type="text" placeholder="Description" className={styles.descriptionInput} onChange={e => setDescription(e.target.value)} />
       <div className={styles.editor}>
         <button className={styles.button} onClick={() => setOpen(!open)}>
           <Image src="/asset/plus.png" alt="" width={16} height={16} />
         </button>
         {open && (
           <div className={styles.add}>
-            <input type="file" id="image" onChange={e=>setFile(e.target.files[0])} style={{ display: "none" }}/>
+            <input type="file" id="image" onChange={e => setFile(e.target.files[0])} style={{ display: "none" }} />
             <button className={styles.addButton}>
               <label htmlFor="image">
                 <Image src="/asset/image.png" alt="" width={16} height={16} />
@@ -180,7 +176,7 @@ const WritePage = () => {
             </button>
           </div>
         )}
-        <ReactQuill className={styles.textArea} theme='snow' value={body} onChange={setBody} modules={modules} placeholder="Tell your story..."/>
+        <ReactQuill className={styles.textArea} theme='snow' value={body} onChange={setBody} modules={modules} placeholder="Tell your story..." />
       </div>
       <button className={styles.publish} onClick={handleSubmit}>Publish</button>
     </div>
