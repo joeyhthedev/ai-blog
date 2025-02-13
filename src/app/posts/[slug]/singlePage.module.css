@@ -1,11 +1,11 @@
 .container {
-
+    padding: 20px;
 }
 
 .infoContainer {
     display: flex;
     align-items: center;
-    gap: 50px
+    gap: 50px;
 }
 
 .textContainer {
@@ -22,6 +22,7 @@
     background-color: black;
 }
 
+/* User Info */
 .user {
     display: flex;
     align-items: center;
@@ -43,19 +44,20 @@
 .userTextContainer {
     color: gray;
     font-size: 12px;
-
 }
 
 .userImageContainer {
     position: relative;
 }
 
+/* Post Description */
 .description {
     font-style: italic;
     color: gray;
     font-size: 20px;
 }
 
+/* Image Container */
 .imageContainer {
     flex: 1;
     height: 350px;
@@ -66,8 +68,11 @@
 .image {
     object-fit: cover;
     border-radius: 9px;
+    width: 100%;
+    height: 100%;
 }
 
+/* Content Section */
 .content {
     display: flex;
     gap: 50px;
@@ -91,4 +96,101 @@
 
 .body h1 {
     font-size: 1.9em;
+}
+
+/* 🔧 Mobile-Friendly Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    /* Stack info container */
+    .infoContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .textContainer {
+        width: 100%;
+        text-align: center;
+    }
+
+    .title {
+        font-size: 1.7em;
+    }
+
+    .description {
+        font-size: 16px;
+    }
+
+    /* User Info */
+    .user {
+        display: flex;
+        flex-direction: row !important; /* ✅ Force side-by-side layout */
+        align-items: center; /* ✅ Keep everything aligned */
+        justify-content: center; /* ✅ Center properly */
+        gap: 10px; /* ✅ Add spacing between avatar and text */
+        text-align: left; /* ✅ Avoid centering the text */
+    }
+
+    .userTextContainer {
+        font-size: 14px;
+    }
+
+    .avatar {
+        width: 35px; /* ✅ Adjust size for mobile */
+        height: 35px;
+        border-radius: 50%;
+    }
+
+    .username {
+        font-size: 14px;
+    }
+
+    /* ✅ Fix: Ensure Image is Visible on Mobile */
+    .imageContainer {
+        width: 100%;
+        height: 250px !important;  /* ✅ Force a visible height */
+        min-height: 250px;  /* ✅ Prevents collapse */
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        background-color: black; /* 🔥 Debugging */
+        border-radius: 9px;
+    }
+
+    .image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        max-height: 250px; /* ✅ Prevents shrinking */
+    }
+
+    /* Content Section */
+    .content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .post {
+        flex: 1;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .body p {
+        font-size: 0.9rem;
+        line-height: 22px;
+    }
+
+    .body h2 {
+        font-size: 1.2em;
+    }
+
+    .body h1 {
+        font-size: 1.5em;
+    }
 }
