@@ -32,7 +32,8 @@
 .imgContainer {
     flex: 2;
     height: 100%;
-    width: 100%;
+    width: 100%; 
+    min-height: 300px;
     overflow: hidden;
     border-radius: 5px;
     position: relative;
@@ -57,7 +58,7 @@
     position: relative;
     color: white;
     font-size: 18px;
-    padding: 20px;
+    padding-left: 20px;
     z-index: 1;
     }
 
@@ -81,3 +82,42 @@
         font-weight: 600;
         color: #4299E1;
     }
+
+    .userInfo {
+      color: white;
+      font-size: 1em;
+      padding-top: 10px;
+    }
+
+
+  /* Mobile: Stack elements */
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+  }
+
+  .postContainer {
+      width: 100%;
+      padding-right: 0px;
+      min-height: 300px; /* Prevent collapse */
+  }
+
+  .featureList {
+      width: 100%;
+      min-height: 200px;
+  }
+
+  .postTitle {
+    font-size: 18px; /* ✅ Smaller title for mobile */
+}
+
+.userInfo {
+    font-size: 0.9em; /* ✅ Slightly smaller user info */
+}
+
+.featuredMarker {
+    font-size: 16px; /* ✅ Reduce "FEATURED" label size */
+}
+}

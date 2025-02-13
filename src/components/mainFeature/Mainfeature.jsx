@@ -3,6 +3,7 @@ import styles from './mainfeature.module.css';
 import Image from 'next/image'
 import FeatureList from '../featureList/FeatureList';
 import Link from 'next/link';
+import { formatDate } from '../../../utils/datefix';
 
 const Mainfeature = ({data}) => {
 
@@ -30,6 +31,7 @@ const Mainfeature = ({data}) => {
                             {mostRecentPost.title}
                         </h1>
                     </Link>
+                    <p className={styles.userInfo}>By {mostRecentPost.user?.name} ○ {formatDate(mostRecentPost.createdAt)}</p>
                 </div>
             </div>
         </div>
