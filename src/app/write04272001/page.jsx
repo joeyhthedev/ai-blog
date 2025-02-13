@@ -8,12 +8,6 @@ import Image from 'next/image';
 import 'react-quill-new/dist/quill.snow.css';
 import { app } from "../../../utils/firebase"
 import { useMemo } from 'react';
-import Quill from 'quill';
-
-
-const Font = Quill.import('formats/font');
-Font.whitelist = ['sans', 'serif', 'monospace', 'gabarito']; 
-Quill.register(Font, true);
 
 // Dynamically import react-quill with SSR disabled
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -21,26 +15,15 @@ const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 const storage = getStorage(app);
 
 const WritePage = () => {
-
   //API Fields
   const [file, setFile] = useState(null);
   const [media, setMedia] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [body, setBody] = useState("");
-  const [quillEditor, setQuillEditor] = useState(null); // Store Quill instance
 
   //Menu
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const quill = document.querySelector(".ql-editor");
-      if (quill) {
-        setQuillEditor(quill.__quill); // Store Quill instance
-      }
-    }
-  }, []);
 
   useEffect(() => {
     const upload = () => {
@@ -97,12 +80,7 @@ const WritePage = () => {
         },
         async () => {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-          // Ensure this code runs only in the browser
-          if (quillEditor) {
-            const range = quillEditor.getSelection()?.index || 0;
-            quillEditor.insertEmbed(range, "image", downloadURL);
-          }
+          console.log("Uploaded Image URL:", downloadURL);
         }
       );
     };
@@ -112,7 +90,7 @@ const WritePage = () => {
     toolbar: {
       container: [
         [{ 'header': [1, 2, false] }],
-        [{ 'font': Font.whitelist }],
+        [{ 'font': 'gabarito' }],
         ['bold', 'italic', 'underline'],
         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
         ['link', 'image'], // Enable image button
