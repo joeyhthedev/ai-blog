@@ -44,7 +44,7 @@
   }
 
   .title {
-    font-size: 13px;
+    font-size: .8em;
   }
   
   .link {
@@ -53,6 +53,14 @@
     padding: 2px 0px;
   }
   
+  @media screen and (max-width: 768px) {
+    .container {
+      border-style: solid;
+      padding: 10px;
+      border-radius: 9px;
+    }
+  }
+
   @media screen and (max-width: 1280px) {
     .imageContainer {
       display: none;

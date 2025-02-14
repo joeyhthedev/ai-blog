@@ -3,7 +3,8 @@
     gap: 30px;
 }
 
-.cardList{
+/* Default Layout (Desktop View) */
+.cardList {
     flex: 5;
 }
 
@@ -15,3 +16,23 @@
     flex: 5;
 }
 
+@media screen and (max-width: 768px) {
+    .content {
+        flex-direction: column; 
+        gap: 20px; 
+    }
+
+    .cardList {
+        width: 100%; 
+    }
+
+    .menu {
+        width: 100%; 
+        order: 2; 
+    }
+
+    .pagination {
+        width: 100%; 
+        order: 3; 
+    }
+}
