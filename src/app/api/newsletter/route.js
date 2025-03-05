@@ -44,7 +44,7 @@ export async function POST(req) {
         },
         body: JSON.stringify({
           email_address: email,
-          status: "subscribed",
+          status: "pending",
         }),
       }
     );
