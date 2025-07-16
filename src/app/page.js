@@ -27,7 +27,7 @@ export default async function Home({ searchParams }) {
   try {
     data = await getData();
     console.log(data);
-  } catch (error) {
+  } catch (error) { 
     console.error("Error fetching data:", error);
     return { posts: [], count: 0 };
   }
