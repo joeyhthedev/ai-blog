@@ -9,7 +9,7 @@ import { Menu } from "../components/Menu/Menu";
 
 //Fetches posts from database
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/posts", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/posts`, {
     cache: "no-store",
   });
 
@@ -22,14 +22,16 @@ const getData = async () => {
 export default async function Home({ searchParams }) {
   const page = parseInt(searchParams.page) || 1;
 
-  let data = {};
+  let data = { posts: [], count: 0 };
 
   try {
     data = await getData();
     console.log(data);
   } catch (error) { 
     console.error("Error fetching data:", error);
-    return { posts: [], count: 0 };
+    return (<div className={styles.container}>
+      <h1>Failed to load posts</h1>
+    </div>);
   }
 
   return (
