@@ -6,13 +6,17 @@ import { Navbar } from "../components/navbar/Navbar";
 import { Featured } from "../components/featured/Featured";
 import CardList from "../components/cardList/CardList";
 import { Menu } from "../components/Menu/Menu";
-
+import { headers } from "next/headers";
 
 //Fetches posts from database
 const getData = async () => {
-  const res = await fetch(`/api/posts`, {
+  const headersList = headers();
+  const host = headersList.get("host");
+  const protocol = host?.includes("localhost") ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/posts`, {
     cache: "no-store",
-    // Don't add baseUrl! Relative path works in server components
   });
 
   if (!res.ok) {
