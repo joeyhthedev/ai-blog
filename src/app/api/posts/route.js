@@ -47,20 +47,21 @@ export const GET = async (req) => {
 
     console.log("🔍 PAGE:", page);
 
-    const [posts, count] = await prisma.$transaction([
-      prisma.post.findMany({
-        take: POST_PER_PAGE,
-        skip: POST_PER_PAGE * (page - 1),
-        include: { cat: true, user: true },
-      }),
-      prisma.post.count(),
-    ]);
+    // 🚫 NO TRANSACTION — run separately
+    const posts = await prisma.post.findMany({
+      take: POST_PER_PAGE,
+      skip: POST_PER_PAGE * (page - 1),
+      include: { cat: true, user: true },
+    });
+
+    const count = await prisma.post.count();
 
     console.log("✅ Retrieved posts:", posts.length);
+
     return new NextResponse(JSON.stringify({ posts, count }), { status: 200 });
 
   } catch (err) {
-    console.error("❌ Prisma error:", err); // log full object
+    console.error("❌ Prisma error:", err);
     return new NextResponse(
       JSON.stringify({ message: "Something went wrong!" }),
       { status: 500 }
